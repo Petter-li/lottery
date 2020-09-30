@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>彩票机选</title>
+  <style>
+    html,body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+    .content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      overflow-x: hidden;
+    }
+    .typecontent {
+      width: 50%;
+      height: 100%;
+      text-align: center;
+      overflow: hidden;
+      padding: 0px 8px;
+      overflow-x: hidden;
+    }
+    .top {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
+    .typecontent .numbers {
+      display: block;
+      flex: 1 1;
+      margin-right: 20px;
+      height: 23px;
+    } 
+    .typecontent button {
+      flex: 0 0 50px;
+      font-size: 12px;
+      word-wrap: normal;
+      height: 23px;
+    }
+    .codeContent p {
+      width: 100%;
+      white-space:nowrap; 
+      text-align: justify;
+      text-align-last: justify;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class='typecontent' style="border-right: 1px solid #ccc;">
+      <h4>双色球</h4>
+      <div class="top">
+        <div class="numbers">
+          <input id="sn" style="width: 100%;" type="number" min="1">
+        </div>
+        <button id='snButton'>机选</button>
+      </div>
+      <div id='sResult' class="codeContent">
+      </div>
+    </div>
+    <div class='typecontent'>
+      <h4>大乐透</h4>
+      <div class="top">
+        <div class="numbers">
+          <input id='dn' style="width: 100%;" type="number" min="1">
+        </div>
+        <button id='dnButton'>机选</button>
+      </div>
+      <div id='dResult' class="codeContent">
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  window.onload = () => {
+    
+    const snRef = document.getElementById('sn');
+    const sButtonRef = document.getElementById('snButton');
+    const dnRef = document.getElementById('dn');
+    const dButtonRef = document.getElementById('dnButton');
+
+    // 随机生成一注号码
+    const getOneSq = (arr, times, max) => {
+      if(arr.length === times) {
+        return arr;
+      }
+      const number = Math.ceil(Math.random()*max);
+      if(!arr.includes(number)) {
+        arr.push(number);
+      }
+      getOneSq(arr, times, max);
+    }
+
+    // 机选双色球
+    sButtonRef.addEventListener('click', function() {
+      const group = snRef.value * 1;
+      if(group > 0 && Number.isInteger(group)) {
+        let str = '';
+        for(let i=0;i<group;i++) {
+          let sQ = [];
+          let sH = [];
+          getOneSq(sQ, 6, 35);
+          getOneSq(sH, 1, 15);
+          sQ = sQ.sort((a,b) => a-b).map(item => `${item}`.padStart(2,'0'));
+          sH = sH.map(item => `${item}`.padStart(2,'0'));
+          str += `<p>${sQ.join(' ')+' * '+sH.join('')}</p>`;
+        }
+        document.getElementById('sResult').innerHTML = str;
+      }
+    });
+
+    // 机选大乐透
+    dButtonRef.addEventListener('click', function() {
+      const group = dnRef.value * 1;
+      if(group > 0 && Number.isInteger(group)) {
+        let str = '';
+        for(let i=0;i<group;i++) {
+          let sQ = [];
+          let sH = [];
+          getOneSq(sQ, 5, 35);
+          getOneSq(sH, 2, 12);
+          sQ = sQ.sort((a,b) => a-b).map(item => `${item}`.padStart(2,'0'));
+          sH = sH.map(item => `${item}`.padStart(2,'0'));
+          str += `<p>${sQ.join(' ')+' * '+sH.join(' ')}</p>`;
+        }
+        document.getElementById('dResult').innerHTML = str;
+      }
+    });
+  }
+</script>
+</html>
