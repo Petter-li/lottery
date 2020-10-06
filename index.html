@@ -103,8 +103,8 @@
         for(let i=0;i<group;i++) {
           let sQ = [];
           let sH = [];
-          getOneSq(sQ, 6, 35);
-          getOneSq(sH, 1, 15);
+          getOneSq(sQ, 6, 33);
+          getOneSq(sH, 1, 16);
           sQ = sQ.sort((a,b) => a-b).map(item => `${item}`.padStart(2,'0'));
           sH = sH.map(item => `${item}`.padStart(2,'0'));
           str += `<p>${sQ.join(' ')+' * '+sH.join('')}</p>`;
@@ -124,7 +124,7 @@
           getOneSq(sQ, 5, 35);
           getOneSq(sH, 2, 12);
           sQ = sQ.sort((a,b) => a-b).map(item => `${item}`.padStart(2,'0'));
-          sH = sH.map(item => `${item}`.padStart(2,'0'));
+          sH = sH.sort((a,b) => a-b).map(item => `${item}`.padStart(2,'0'));
           str += `<p>${sQ.join(' ')+' * '+sH.join(' ')}</p>`;
         }
         document.getElementById('dResult').innerHTML = str;
